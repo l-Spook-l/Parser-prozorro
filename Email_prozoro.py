@@ -8,10 +8,13 @@ from Create_HTML import append_HTML
 
 def send_email():
     append_HTML()
-    # Кто отправляет
-    # sender = "YOUR EMAIL"
+    # Адрес электронной почты, которая будет отправлять сообщение
     sender = EMAIL
 
+    # Адрес электронной почты, на который вы хотите отправить сообщение
+    recipient = EMAIL
+
+    # Это пароль для созданного приложения в почте
     password = PASSWORD
 
     # Создаем обьект SMTP (сервер, порт)
@@ -34,11 +37,11 @@ def send_email():
         msg = MIMEText(template, "html")
         # Доп. заголовки
         msg["From"] = sender
-        msg["To"] = sender
+        msg["To"] = recipient
         # Задаем тему сообщения
         msg["Subject"] = "Тестовая тема"
         # Отправляем сообщение (Кто отправляет, кому, сообщение)
-        server.sendmail(sender, sender, msg.as_string())
+        server.sendmail(sender, recipient, msg.as_string())
 
         return "Сообщение успешно отправлено"
     except Exception as ex:
@@ -47,7 +50,7 @@ def send_email():
 
 def main():
     # Задаем время
-    schedule.every().day.at("17:55").do(send_email)
+    schedule.every().day.at("18:29").do(send_email)
 
     while True:
         # Запуск

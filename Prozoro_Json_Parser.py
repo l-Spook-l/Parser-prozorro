@@ -1,5 +1,4 @@
 import requests
-from pprint import pprint
 
 
 def get_json():
@@ -9,16 +8,15 @@ def get_json():
                       "Chrome/98.0.4758.82 Safari/537.36",
     }
     list_data = []
-    # url = f"https://prozorro.gov.ua/api/search/tenders?filterType=tenders&status%5B0%5D=active.enquiries&status%5B1%5D=active.tendering&cpv%5B0%5D=71630000-3"
-    url = f"https://prozorro.gov.ua/api/search/tenders"
+
+    url = "https://prozorro.gov.ua/api/search/tenders?filterType=tenders&status%5B0%5D=active.enquiries&status%5B1%5D=active.tendering&cpv%5B0%5D=71630000-3&cpv%5B1%5D=73110000-6&cpv%5B2%5D=50410000-2&page=1&region=1-6"
+
     # Получаем JSON файл
     s = requests.session()
     response = s.post(url=url, headers=headers)
     data = response.json()
-    quantity_tender_in_page = 20
+    quantity_tender_in_page = data['per_page']  # Количество тендеров на 1й странице
     total_tenders = data["total"]  # Всего тендеров
-    pprint(f'data={data}')
-    print(total_tenders)
 
     if total_tenders <= quantity_tender_in_page:
         page = 1
@@ -28,13 +26,17 @@ def get_json():
         for item in range(1, page + 1):
             print("==============================================================================================")
             print(item)
-            url_page = f"https://prozorro.gov.ua/api/search/tenders?filterType=tenders&status%5B0%5D=active.enquiries&status%5B1%5D=active.tendering&cpv%5B0%5D=71630000-3&page={item}"
+            url_page = f"https://prozorro.gov.ua/api/search/tenders?filterType=tenders&status%5B0%5D=active.enquiries&status%5B1%5D=active.tendering&cpv%5B0%5D=71630000-3&cpv%5B1%5D=73110000-6&cpv%5B2%5D=50410000-2&page=1&region=1-6&page={item}"
             session = requests.session()
             response = session.post(url=url_page, headers=headers)
             data_page = response.json()
             for tender in range(quantity_tender_in_page):
                 title = data_page["data"][tender]["title"]
-                city_company = data_page["data"][tender]["procuringEntity"]["address"]["locality"]
+                try:
+                    city_company = data_page["data"][tender]["procuringEntity"]["address"]["locality"]
+                except Exception as error:
+                    city_company = data_page["data"][tender]["procuringEntity"]["address"]["region"]
+
                 name_company = data_page["data"][tender]["procuringEntity"]["identifier"]["legalName"]
                 ID_tender = data_page["data"][tender]["tenderID"]
                 price = data_page["data"][tender]["value"]["amount"]
@@ -47,7 +49,8 @@ def get_json():
                       '\n', price, '\n', start_date, '\n', link)
                 print("---------------------------------------------------------------------------------------")
     except Exception as ex:
-        print('SSSsssssssssssssssssssssssssssssssssssssssssSSS')
+        print('Something went wrong')
+        print(f'Error{ex}')
 
     return list_data, total_tenders
 
