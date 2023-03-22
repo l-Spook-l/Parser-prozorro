@@ -2,10 +2,6 @@ from Prozoro_Json_Parser import get_json
 
 
 def append_HTML():
-    print("===========================================================================================")
-    print("===========================================================================================")
-    print("===========================================================================================")
-
     data, total_tenders = get_json()
 
     # Шаблон HTML-файла
@@ -26,10 +22,7 @@ def append_HTML():
         List_HTML_for_email.insert(16 + i, f'<p>Оголошено: {data[item][5]}</p>\n')
         i += 7
 
-    # print(List_HTML_for_email)
-
     with open("index.html", 'w', encoding='utf-8') as f:
-        # test_data_in_file = f.readlines()
         f.write(' '.join(List_HTML_for_email))
 
     print(total_tenders)
