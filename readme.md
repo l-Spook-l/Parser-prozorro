@@ -4,5 +4,5 @@
 # In this example 
 # region=7-9 - Kyiv region
 # 71630000-3 - Services from technical inspection and testing
-# 73110000-6 - Doslidnitsky services
+# 73110000-6 - Research services
 # 50410000-2 - Services for the repair and technical maintenance of vimiruval, testing and control devices
