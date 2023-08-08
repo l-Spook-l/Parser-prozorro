@@ -12,11 +12,13 @@ def get_json():
     url = "https://prozorro.gov.ua/api/search/tenders?filterType=tenders&status%5B0%5D=active.enquiries&status%5B1%5D=active.tendering&cpv%5B0%5D=71630000-3&cpv%5B1%5D=73110000-6&cpv%5B2%5D=50410000-2&page=1&region=1-6"
 
     # Получаем JSON файл
-    s = requests.session()
-    response = s.post(url=url, headers=headers)
+    session = requests.session()
+    response = session.post(url=url, headers=headers)
     data = response.json()
-    quantity_tender_in_page = data['per_page']  # Количество тендеров на 1й странице
-    total_tenders = data["total"]  # Всего тендеров
+    # Количество тендеров на 1й странице
+    quantity_tender_in_page = data['per_page']
+    # Всего тендеров
+    total_tenders = data["total"]
 
     if total_tenders <= quantity_tender_in_page:
         page = 1

@@ -1,4 +1,4 @@
-from Prozoro_Json_Parser import get_json
+from Prozorro_Json_Parser import get_json
 
 
 def append_HTML():

@@ -50,7 +50,7 @@ def send_email():
 
 def main():
     # Задаем время
-    schedule.every().day.at("18:29").do(send_email)
+    schedule.every().day.at("15:06").do(send_email)
 
     while True:
         # Запуск
